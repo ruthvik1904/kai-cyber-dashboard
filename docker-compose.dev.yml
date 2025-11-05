@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  kai-cyber-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      # Mount entire source for hot reload
+      - .:/app
+      # Prevent overwriting node_modules in container
+      - /app/node_modules
+      # Mount JSON file (not copied into image)
+      - ./public/ui_demo.json:/app/public/ui_demo.json:ro
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+
