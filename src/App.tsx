@@ -1,9 +1,18 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import Dashboard from './pages/Dashboard';
+import VulnerabilityList from './pages/VulnerabilityList';
+
 function App() {
   return (
-    <div>
-      <h1>Kai Cyber Dashboard</h1>
-      <p>Local development setup ready!</p>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/vulnerabilities" element={<VulnerabilityList />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
