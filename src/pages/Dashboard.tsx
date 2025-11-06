@@ -3,11 +3,22 @@
  * Shows key metrics and visualizations
  */
 
-import { Box, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Heading, Text, VStack, SimpleGrid, Stat, StatLabel, StatNumber } from '@chakra-ui/react';
 import { useVulnerabilityData } from '../hooks/useVulnerabilityData';
+import SeverityDistributionChart from '../components/charts/SeverityDistributionChart';
+import RiskFactorsChart from '../components/charts/RiskFactorsChart';
+import VulnerabilityTrendChart from '../components/charts/VulnerabilityTrendChart';
+import KaiStatusChart from '../components/charts/KaiStatusChart';
+import {
+  prepareSeverityData,
+  prepareRiskFactorsData,
+  prepareTrendData,
+  prepareKaiStatusData,
+} from '../utils/chartDataTransform';
 
 function Dashboard() {
   const { vulnerabilities, metadata, isLoading, error } = useVulnerabilityData();
+  console.log('vulnerabilities', vulnerabilities.length);
 
   if (isLoading) {
     return (
@@ -25,6 +36,12 @@ function Dashboard() {
     );
   }
 
+  // Prepare chart data
+  const severityData = prepareSeverityData(vulnerabilities);
+  const riskFactorsData = prepareRiskFactorsData(vulnerabilities, 15);
+  const trendData = prepareTrendData(vulnerabilities, 'month');
+  const kaiStatusData = prepareKaiStatusData(vulnerabilities);
+
   return (
     <VStack align="stretch" spacing={6}>
       <Box>
@@ -36,47 +53,35 @@ function Dashboard() {
         </Text>
       </Box>
 
-      {/* Key Metrics - Placeholder for Phase 3 */}
-      <Box bg="white" p={6} borderRadius="lg" shadow="md">
-        <Heading size="md" mb={4}>
-          Key Metrics
-        </Heading>
-        {metadata && (
-          <VStack align="stretch" spacing={3}>
-            <Text>
-              <strong>Total Vulnerabilities:</strong> {metadata.totalCount.toLocaleString()}
-            </Text>
-            <Text>
-              <strong>Groups:</strong> {metadata.totalGroups}
-            </Text>
-            <Text>
-              <strong>Repositories:</strong> {metadata.totalRepos}
-            </Text>
-            <Text>
-              <strong>Images:</strong> {metadata.totalImages}
-            </Text>
-            <Text>
-              <strong>Severity Distribution:</strong>
-            </Text>
-            <Box pl={4}>
-              <Text>Critical: {metadata.severityDistribution.critical}</Text>
-              <Text>High: {metadata.severityDistribution.high}</Text>
-              <Text>Medium: {metadata.severityDistribution.medium}</Text>
-              <Text>Low: {metadata.severityDistribution.low}</Text>
-            </Box>
-          </VStack>
-        )}
-      </Box>
+      {/* Key Metrics */}
+      {metadata && (
+        <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
+          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
+            <StatLabel>Total Vulnerabilities</StatLabel>
+            <StatNumber>{metadata.totalCount.toLocaleString()}</StatNumber>
+          </Stat>
+          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
+            <StatLabel>Groups</StatLabel>
+            <StatNumber>{metadata.totalGroups}</StatNumber>
+          </Stat>
+          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
+            <StatLabel>Repositories</StatLabel>
+            <StatNumber>{metadata.totalRepos}</StatNumber>
+          </Stat>
+          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
+            <StatLabel>Images</StatLabel>
+            <StatNumber>{metadata.totalImages}</StatNumber>
+          </Stat>
+        </SimpleGrid>
+      )}
 
-      {/* Visualizations - Placeholder for Phase 3 */}
-      <Box bg="white" p={6} borderRadius="lg" shadow="md">
-        <Heading size="md" mb={4}>
-          Visualizations
-        </Heading>
-        <Text color="gray.500">
-          Charts and graphs will be added in Phase 3
-        </Text>
-      </Box>
+      {/* Charts Grid */}
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
+        <SeverityDistributionChart data={severityData} isLoading={isLoading} />
+        <RiskFactorsChart data={riskFactorsData} isLoading={isLoading} />
+        <VulnerabilityTrendChart data={trendData} isLoading={isLoading} />
+        <KaiStatusChart data={kaiStatusData} isLoading={isLoading} />
+      </SimpleGrid>
     </VStack>
   );
 }

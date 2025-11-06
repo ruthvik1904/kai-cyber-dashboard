@@ -213,9 +213,17 @@ export function filterVulnerabilities(
 
   // Filter by kaiStatus (exclude)
   if (filters.excludeKaiStatus && filters.excludeKaiStatus.length > 0) {
-    filtered = filtered.filter(v => 
-      !filters.excludeKaiStatus!.includes(v.kaiStatus || 'unknown')
-    );
+    filtered = filtered.filter(v => {
+      const vulnKaiStatus = v.kaiStatus;
+      // If vulnerability has no kaiStatus, keep it
+      if (!vulnKaiStatus) {
+        return true;
+      }
+      // Check if any excluded status matches
+      return !filters.excludeKaiStatus!.some(excludedStatus => 
+        vulnKaiStatus === excludedStatus
+      );
+    });
   }
 
   // Filter by package name
