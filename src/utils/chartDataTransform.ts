@@ -3,8 +3,6 @@
  */
 
 import { FlattenedVulnerability } from '../types/vulnerability';
-import { format, parseISO, startOfMonth, startOfWeek } from 'date-fns';
-
 export interface SeverityChartData {
   name: string;
   value: number;
@@ -94,8 +92,7 @@ export function prepareRiskFactorsData(
  * Groups vulnerabilities by published date (monthly)
  */
 export function prepareTrendData(
-  vulnerabilities: FlattenedVulnerability[],
-  groupBy: 'month' | 'week' = 'month'
+  vulnerabilities: FlattenedVulnerability[]
 ): TrendChartData[] {
   const dateGroups: Record<string, {
     total: number;
@@ -107,10 +104,14 @@ export function prepareTrendData(
 
   vulnerabilities.forEach((v) => {
     try {
-      const date = parseISO(v.published);
-      const groupKey = groupBy === 'month'
-        ? format(startOfMonth(date), 'yyyy-MM')
-        : format(startOfWeek(date), 'yyyy-MM-dd');
+      const timestamp = v.publishedTimestamp;
+      if (!timestamp) {
+        return;
+      }
+      const date = new Date(timestamp);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const groupKey = `${year}-${String(month).padStart(2, '0')}`;
 
       if (!dateGroups[groupKey]) {
         dateGroups[groupKey] = {

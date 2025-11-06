@@ -18,7 +18,6 @@ import {
 
 function Dashboard() {
   const { vulnerabilities, metadata, isLoading, error } = useVulnerabilityData();
-  console.log('vulnerabilities', vulnerabilities.length);
 
   if (isLoading) {
     return (
@@ -39,7 +38,7 @@ function Dashboard() {
   // Prepare chart data
   const severityData = prepareSeverityData(vulnerabilities);
   const riskFactorsData = prepareRiskFactorsData(vulnerabilities, 15);
-  const trendData = prepareTrendData(vulnerabilities, 'month');
+  const trendData = prepareTrendData(vulnerabilities);
   const kaiStatusData = prepareKaiStatusData(vulnerabilities);
 
   return (
