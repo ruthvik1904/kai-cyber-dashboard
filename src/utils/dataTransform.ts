@@ -270,7 +270,7 @@ export function sortVulnerabilities(
           (severityOrder[a.severity] || 0) - (severityOrder[b.severity] || 0);
         break;
       case 'published':
-        comparison = new Date(a.published).getTime() - new Date(b.published).getTime();
+        comparison = a.publishedTimestamp - b.publishedTimestamp;
         break;
       case 'cve':
         comparison = a.cve.localeCompare(b.cve);

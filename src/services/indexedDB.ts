@@ -90,7 +90,13 @@ export async function getVulnerabilities(): Promise<FlattenedVulnerability[] | n
 
     const records = await db.vulnerabilities.toArray();
     // Remove cachedAt field before returning
-    return records.map(({ cachedAt, ...vuln }) => vuln);
+    return records.map(({ cachedAt, ...vuln }) => {
+      const publishedTimestamp = new Date(vuln.published.replace(' ', 'T')).getTime();
+      return {
+        ...vuln,
+        publishedTimestamp,
+      };
+    });
   } catch (error) {
     console.error('Error getting vulnerabilities from cache:', error);
     return null;
