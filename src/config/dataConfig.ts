@@ -2,6 +2,7 @@
  * Configuration constants for data loading and processing
  */
 const jsonUrl = import.meta.env.VITE_VULN_DATA_URL || '/ui_demo.json';
+console.log(import.meta.env.VITE_VULN_DATA_URL);
 
 export const DATA_CONFIG = {
   // JSON file path (relative to public directory)
