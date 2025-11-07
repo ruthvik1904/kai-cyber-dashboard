@@ -18,10 +18,6 @@ export interface UseDataLoadingProgressResult {
 export function useDataLoadingProgress(): UseDataLoadingProgressResult {
   const [progress, setProgress] = useState<LoadProgress | null>(null);
 
-  const updateProgress = useCallback((prog: LoadProgress) => {
-    setProgress(prog);
-  }, []);
-
   const reset = useCallback(() => {
     setProgress(null);
   }, []);

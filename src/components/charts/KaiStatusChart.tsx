@@ -54,7 +54,7 @@ function KaiStatusChart({ data, isLoading = false }: KaiStatusChartProps) {
   }
 
   return (
-    <ChartContainer title="Kai Status Distribution" isLoading={isLoading}>
+    <ChartContainer title="Kai Status Distribution" isLoading={isLoading} height={{ base: 260, md: 320 }}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -62,7 +62,7 @@ function KaiStatusChart({ data, isLoading = false }: KaiStatusChartProps) {
             cx="50%"
             cy="50%"
             labelLine={false}
-            label={({ name, value, percent }) => {
+            label={({ name, percent }) => {
               // Only show label if percentage is significant
               if (percent < 0.05) return '';
               return `${name}: ${(percent * 100).toFixed(1)}%`;

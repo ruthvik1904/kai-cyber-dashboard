@@ -23,7 +23,7 @@ function AnalysisComparisonChart({ data, isLoading = false }: AnalysisComparison
   }
 
   return (
-    <Box height={320}>
+    <Box height={{ base: 240, md: 320 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />

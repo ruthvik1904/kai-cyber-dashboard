@@ -4,8 +4,26 @@
 
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Container, Flex, Heading, Spacer, Link as ChakraLink, Spinner, Text, IconButton, useDisclosure, useColorModeValue } from '@chakra-ui/react';
-import { SettingsIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Spacer,
+  Link as ChakraLink,
+  Spinner,
+  Text,
+  IconButton,
+  useDisclosure,
+  useColorModeValue,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import { SettingsIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { useVulnerabilityData } from '../../hooks/useVulnerabilityData';
 import PreferencesModal from '../settings/PreferencesModal';
 
@@ -20,46 +38,59 @@ function Layout({ children }: LayoutProps) {
   const pageBg = useColorModeValue('gray.50', 'gray.900');
   const headerBg = useColorModeValue('white', 'gray.800');
   const headerBorder = useColorModeValue('gray.200', 'gray.700');
-  const mutedText = useColorModeValue('gray.600', 'gray.300');
   const footerBg = headerBg;
   const footerBorder = headerBorder;
+  const mutedText = useColorModeValue('gray.600', 'gray.300');
+  const isDesktop = useBreakpointValue({ base: false, md: true });
+
+  const navLinks = [
+    { label: 'Dashboard', href: '/' },
+    { label: 'Vulnerabilities', href: '/vulnerabilities' },
+  ];
 
   return (
-    <Box minH="100vh" bg={pageBg} display="flex" flexDirection="column">
+    <Box minH="100vh" bg={pageBg}>
       {/* Header */}
       <Box bg={headerBg} borderBottom="1px" borderColor={headerBorder} shadow="sm">
-        <Container maxW="container.xl" py={4}>
-          <Flex align="center">
-            <Heading size="lg" color="blue.500">
+        <Container maxW="container.xl" py={{ base: 3, md: 4 }}>
+          <Flex align="center" gap={3}>
+            <Heading size={{ base: 'md', md: 'lg' }} color={useColorModeValue('blue.500', 'blue.300')}>
               Kai Cyber Dashboard
             </Heading>
             <Spacer />
-            <Flex gap={6} align="center">
-              <ChakraLink
-                as={Link}
-                to="/"
-                fontWeight={location.pathname === '/' ? 'bold' : 'normal'}
-                color={location.pathname === '/' ? 'blue.600' : mutedText}
-                _hover={{ color: 'blue.600' }}
-              >
-                Dashboard
-              </ChakraLink>
-              <ChakraLink
-                as={Link}
-                to="/vulnerabilities"
-                fontWeight={location.pathname === '/vulnerabilities' ? 'bold' : 'normal'}
-                color={location.pathname === '/vulnerabilities' ? 'blue.600' : mutedText}
-                _hover={{ color: 'blue.600' }}
-              >
-                Vulnerabilities
-              </ChakraLink>
+            <HStack spacing={3} align="center">
               {isLoading && (
-                <Flex align="center" gap={2}>
+                <HStack align="center" spacing={2} color={mutedText}>
                   <Spinner size="sm" />
-                  <Text fontSize="sm" color="gray.500">
-                    Loading...
-                  </Text>
-                </Flex>
+                  <Text fontSize="sm">Loading...</Text>
+                </HStack>
+              )}
+              {isDesktop ? (
+                <HStack spacing={4} align="center">
+                  {navLinks.map((link) => (
+                    <ChakraLink
+                      key={link.href}
+                      as={Link}
+                      to={link.href}
+                      fontWeight={location.pathname === link.href ? 'bold' : 'medium'}
+                      color={location.pathname === link.href ? useColorModeValue('blue.600', 'blue.200') : mutedText}
+                      _hover={{ color: useColorModeValue('blue.600', 'blue.200') }}
+                    >
+                      {link.label}
+                    </ChakraLink>
+                  ))}
+                </HStack>
+              ) : (
+                <Menu>
+                  <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" />
+                  <MenuList>
+                    {navLinks.map((link) => (
+                      <MenuItem as={Link} to={link.href} key={link.href} fontWeight={location.pathname === link.href ? 'bold' : 'normal'}>
+                        {link.label}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </Menu>
               )}
               <IconButton
                 aria-label="Open preferences"
@@ -67,20 +98,20 @@ function Layout({ children }: LayoutProps) {
                 variant="ghost"
                 onClick={onOpen}
               />
-            </Flex>
+            </HStack>
           </Flex>
         </Container>
       </Box>
 
       {/* Main Content */}
-      <Container as="main" maxW="container.xl" py={8} flex="1">
+      <Container maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 6 }}>
         {children}
       </Container>
 
       {/* Footer */}
-      <Box as="footer" bg={footerBg} borderTop="1px" borderColor={footerBorder} mt="auto">
-        <Container maxW="container.xl" py={4}>
-          <Text fontSize="sm" color="gray.500" textAlign="center">
+      <Box as="footer" bg={footerBg} borderTop="1px" borderColor={footerBorder} mt={{ base: 10, md: 12 }}>
+        <Container maxW="container.xl" py={{ base: 4, md: 6 }}>
+          <Text fontSize="sm" color={mutedText} textAlign="center">
             Security Vulnerability Dashboard
           </Text>
         </Container>

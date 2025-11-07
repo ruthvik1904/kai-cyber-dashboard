@@ -2,7 +2,7 @@
  * Risk factors frequency horizontal bar chart
  */
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { memo } from 'react';
 import ChartContainer from './ChartContainer';
 import { RiskFactorChartData } from '../../utils/chartDataTransform';
@@ -45,7 +45,7 @@ function RiskFactorsChart({ data, isLoading = false }: RiskFactorsChartProps) {
   }
 
   return (
-    <ChartContainer title="Top Risk Factors" isLoading={isLoading}>
+    <ChartContainer title="Top Risk Factors" isLoading={isLoading} height={{ base: 260, md: 320 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}

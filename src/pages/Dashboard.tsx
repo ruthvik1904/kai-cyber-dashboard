@@ -49,19 +49,19 @@ function Dashboard() {
   const headingColor = useColorModeValue('gray.700', 'gray.200');
 
   return (
-    <VStack align="stretch" spacing={6}>
+    <VStack align="stretch" spacing={{ base: 6, md: 8 }}>
       <Box>
-        <Heading size="xl" mb={2} color={headingColor}>
+        <Heading size={{ base: 'lg', md: 'xl' }} mb={2} color={headingColor}>
           Security Vulnerability Dashboard
         </Heading>
-        <Text color={mutedText}>
+        <Text color={mutedText} fontSize={{ base: 'sm', md: 'md' }}>
           Overview of security vulnerabilities across the software ecosystem
         </Text>
       </Box>
 
       {/* Key Metrics */}
       {metadata && (
-        <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
+        <SimpleGrid columns={{ base: 2, sm: 2, md: 4 }} spacing={{ base: 3, md: 4 }}>
           <Stat bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={4} borderRadius="lg" shadow="md">
             <StatLabel color={mutedText}>Total Vulnerabilities</StatLabel>
             <StatNumber>{metadata.totalCount.toLocaleString()}</StatNumber>
@@ -82,18 +82,18 @@ function Dashboard() {
       )}
 
       {/* Charts Grid */}
-      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, md: 6 }}>
         <SeverityDistributionChart data={severityData} isLoading={isLoading} />
         <RiskFactorsChart data={riskFactorsData} isLoading={isLoading} />
         <VulnerabilityTrendChart data={trendData} isLoading={isLoading} />
         <KaiStatusChart data={kaiStatusData} isLoading={isLoading} />
       </SimpleGrid>
 
-      <Box bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={6} borderRadius="lg" shadow="md">
+      <Box bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={{ base: 4, md: 6 }} borderRadius="lg" shadow="md">
         <Heading size="md" mb={4} color={headingColor} textAlign="center">
           AI vs Manual Analysis
         </Heading>
-        <Text color={mutedText} fontSize="sm" mb={4} textAlign="center">
+        <Text color={mutedText} fontSize={{ base: 'sm', md: 'md' }} mb={4} textAlign="center">
           Compare how AI (Kai status) and manual adjudication categorize vulnerabilities across severity levels.
         </Text>
         <AnalysisComparisonChart data={analysisComparisonData} isLoading={isLoading} />

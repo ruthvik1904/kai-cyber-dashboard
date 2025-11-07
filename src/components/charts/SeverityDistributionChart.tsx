@@ -53,11 +53,9 @@ function SeverityDistributionChart({
     );
   }
 
-  // Calculate total for percentage calculations
-  const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <ChartContainer title="Severity Distribution" isLoading={isLoading}>
+    <ChartContainer title="Severity Distribution" isLoading={isLoading} height={{ base: 260, md: 320 }}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie

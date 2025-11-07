@@ -4,14 +4,14 @@
  */
 
 import { ReactNode } from 'react';
-import { Box, Heading, Text, Spinner, Center, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, Text, Spinner, Center, useColorModeValue, ResponsiveValue } from '@chakra-ui/react';
 
 interface ChartContainerProps {
   title: string;
   children: ReactNode;
   isLoading?: boolean;
   error?: string | null;
-  height?: string | number;
+  height?: ResponsiveValue<string | number>;
 }
 
 export default function ChartContainer({
@@ -26,12 +26,12 @@ export default function ChartContainer({
       bg={useColorModeValue('white', 'gray.800')}
       borderWidth="1px"
       borderColor={useColorModeValue('gray.200', 'gray.700')}
-      p={6}
+      p={{ base: 4, md: 6 }}
       borderRadius="lg"
       shadow="md"
       h={height}
     >
-      <Heading size="md" mb={4}>
+      <Heading size="md" mb={4} color={useColorModeValue('gray.700', 'gray.200')}>
         {title}
       </Heading>
       {isLoading ? (

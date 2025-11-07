@@ -17,6 +17,7 @@ import {
   Checkbox,
   VStack,
   useToast,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { SortField } from '../../hooks/useSortedVulnerabilities';
 import { useState } from 'react';
@@ -35,6 +36,8 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
   const toast = useToast();
   const { preferences, updatePreferences } = useUserPreferences();
   const { setColorMode } = useColorMode();
+  const modalSize = useBreakpointValue({ base: 'full', md: 'lg' });
+  const modalBorderRadius = useBreakpointValue({ base: '0', md: 'md' });
   const [theme, setTheme] = useState(preferences.theme);
   const [sortField, setSortField] = useState<SortField>(preferences.defaultSortField);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(preferences.defaultSortOrder);
@@ -74,12 +77,12 @@ export default function PreferencesModal({ isOpen, onClose }: PreferencesModalPr
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} size={modalSize} motionPreset="slideInBottom">
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent borderRadius={modalBorderRadius} h={{ base: '100dvh', md: 'auto' }}>
         <ModalHeader>User Preferences</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody pb={6}>
           <VStack align="stretch" spacing={6}>
             <FormControl>
               <FormLabel>Theme</FormLabel>

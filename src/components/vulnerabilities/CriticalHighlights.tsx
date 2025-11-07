@@ -1,4 +1,4 @@
-import { Box, Text, VStack, HStack, Badge, Button, useColorModeValue } from '@chakra-ui/react';
+import { Box, Text, VStack, HStack, Badge, Button, useColorModeValue, Stack } from '@chakra-ui/react';
 import { FlattenedVulnerability } from '../../types/vulnerability';
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -73,21 +73,22 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
           </ResponsiveContainer>
         </Box>
 
-        <VStack align="stretch" spacing={2}>
+        <VStack align="stretch" spacing={3}>
           {criticalList.map((vuln) => (
-            <HStack
-              key={vuln.id}
+            <Stack
+              direction={{ base: 'column', md: 'row' }}
+              key={vuln.cve}
               justify="space-between"
-              align="center"
-              bg={cardBg}
+              align={{ base: 'flex-start', md: 'center' }}
+              bg={useColorModeValue('white', 'gray.800')}
               borderWidth="1px"
-              borderColor={cardBorder}
+              borderColor={useColorModeValue('gray.200', 'gray.700')}
               borderRadius="md"
-              p={3}
+              p={{ base: 3, md: 4 }}
               shadow="sm"
             >
               <VStack align="start" spacing={1}>
-                <Text fontWeight="bold" color={cveColor}>
+                <Text fontWeight="bold" color={useColorModeValue('blue.600', 'blue.200')}>
                   {vuln.cve}
                 </Text>
                 <Text fontSize="sm" color={metaColor}>
@@ -101,7 +102,7 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
                   View
                 </Button>
               </HStack>
-            </HStack>
+            </Stack>
           ))}
         </VStack>
 
