@@ -13,7 +13,6 @@ import {
   Input,
   Button,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { FilterState } from '../../hooks/useVulnerabilityFilters';
 
 interface FilterPanelProps {
@@ -25,25 +24,21 @@ interface FilterPanelProps {
 const severityOptions = ['critical', 'high', 'medium', 'low'];
 
 function FilterPanel({ filters, onFilterChange, onClear }: FilterPanelProps) {
-  const [localFilters, setLocalFilters] = useState<FilterState>(filters);
-
   const handleSeverityChange = (values: string[]) => {
-    const newFilters = { ...localFilters, severity: values.length > 0 ? values : undefined };
-    setLocalFilters(newFilters);
+    const newFilters = { ...filters, severity: values.length > 0 ? values : undefined };
     onFilterChange(newFilters);
   };
 
   const handlePackageNameChange = (value: string) => {
-    const newFilters = { ...localFilters, packageName: value || undefined };
-    setLocalFilters(newFilters);
+    const newFilters = { ...filters, packageName: value || undefined };
     onFilterChange(newFilters);
   };
 
   const hasActiveFilters = Boolean(
-    localFilters.severity?.length ||
-    localFilters.packageName ||
-    localFilters.kaiStatus?.length ||
-    localFilters.excludeKaiStatus?.length
+    filters.severity?.length ||
+    filters.packageName ||
+    filters.kaiStatus?.length ||
+    filters.excludeKaiStatus?.length
   );
 
   return (
@@ -65,7 +60,7 @@ function FilterPanel({ filters, onFilterChange, onClear }: FilterPanelProps) {
             Severity
           </Text>
           <CheckboxGroup
-            value={localFilters.severity || []}
+            value={filters.severity || []}
             onChange={handleSeverityChange}
           >
             <VStack align="start" spacing={2}>
@@ -84,7 +79,7 @@ function FilterPanel({ filters, onFilterChange, onClear }: FilterPanelProps) {
           </Text>
           <Input
             placeholder="Filter by package name..."
-            value={localFilters.packageName || ''}
+            value={filters.packageName || ''}
             onChange={(e) => handlePackageNameChange(e.target.value)}
           />
         </Box>
