@@ -28,9 +28,6 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
   const highlightBg = useColorModeValue('red.50', 'rgba(254, 226, 226, 0.1)');
   const highlightBorder = useColorModeValue('red.100', 'red.300');
   const titleColor = useColorModeValue('red.700', 'red.200');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const cardBorder = useColorModeValue('gray.200', 'gray.700');
-  const cveColor = useColorModeValue('blue.600', 'blue.200');
   const metaColor = useColorModeValue('gray.600', 'gray.300');
   const footerColor = useColorModeValue('gray.600', 'gray.300');
 
