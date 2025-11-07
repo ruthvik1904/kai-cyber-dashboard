@@ -3,14 +3,13 @@
  * Shows before/after counts with animated transitions
  */
 
-import { Box, HStack, VStack, Text, Progress, useColorModeValue } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, Progress } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useVulnerabilityFilters } from '../../hooks/useVulnerabilityFilters';
+import { FilterState, FilterStats } from '../../hooks/useVulnerabilityFilters';
 
 const MotionBox = motion(Box);
 
-function FilterImpactVisualization() {
-  const { filterStats, filters } = useVulnerabilityFilters();
+function FilterImpactVisualization({ filters, filterStats }: { filters: FilterState; filterStats: FilterStats; }) {
   const hasActiveFilters = (filters.excludeKaiStatus?.length ?? 0) > 0;
 
   const filteredPercentage =
