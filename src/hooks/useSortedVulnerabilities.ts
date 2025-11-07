@@ -22,10 +22,12 @@ export interface UseSortedVulnerabilitiesResult {
  * Hook for managing sorted vulnerabilities
  */
 export function useSortedVulnerabilities(
-  data: FlattenedVulnerability[]
+  data: FlattenedVulnerability[],
+  initialSortField: SortField = 'cvss',
+  initialSortOrder: SortOrder = 'desc'
 ): UseSortedVulnerabilitiesResult {
-  const [sortField, setSortField] = useState<SortField>('cvss');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [sortField, setSortField] = useState<SortField>(initialSortField);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(initialSortOrder);
 
   // Memoize sorted data
   const sortedData = useMemo(() => {

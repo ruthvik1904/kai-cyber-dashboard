@@ -12,6 +12,7 @@ import {
   Select,
   Input,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FilterState } from '../../hooks/useVulnerabilityFilters';
 
@@ -42,7 +43,14 @@ function FilterPanel({ filters, onFilterChange, onClear }: FilterPanelProps) {
   );
 
   return (
-    <Box bg="white" p={6} borderRadius="lg" shadow="md">
+    <Box
+      bg={useColorModeValue('white', 'gray.800')}
+      borderWidth="1px"
+      borderColor={useColorModeValue('gray.200', 'gray.700')}
+      p={6}
+      borderRadius="lg"
+      shadow="md"
+    >
       <VStack align="stretch" spacing={4}>
         <HStack justify="space-between">
           <Text fontWeight="bold" fontSize="lg">

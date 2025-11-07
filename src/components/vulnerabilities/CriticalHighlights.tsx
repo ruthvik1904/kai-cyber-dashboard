@@ -1,4 +1,4 @@
-import { Box, Text, VStack, HStack, Badge, Button } from '@chakra-ui/react';
+import { Box, Text, VStack, HStack, Badge, Button, useColorModeValue } from '@chakra-ui/react';
 import { FlattenedVulnerability } from '../../types/vulnerability';
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -30,10 +30,16 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
   }
 
   return (
-    <Box bg="red.50" borderRadius="lg" borderWidth="1px" borderColor="red.100" p={6}>
+    <Box
+      bg={useColorModeValue('red.50', 'rgba(254, 226, 226, 0.1)')}
+      borderRadius="lg"
+      borderWidth="1px"
+      borderColor={useColorModeValue('red.100', 'red.300')}
+      p={6}
+    >
       <VStack align="stretch" spacing={4}>
         <HStack justify="space-between" align="center">
-          <Text fontWeight="bold" fontSize="lg" color="red.700">
+          <Text fontWeight="bold" fontSize="lg" color={useColorModeValue('red.700', 'red.200')}>
             Critical Highlights
           </Text>
           <Badge colorScheme="red">
@@ -60,12 +66,22 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
 
         <VStack align="stretch" spacing={2}>
           {criticalList.map((vuln) => (
-            <HStack key={vuln.cve} justify="space-between" align="center" bg="white" borderRadius="md" p={3} shadow="sm">
+            <HStack
+              key={vuln.cve}
+              justify="space-between"
+              align="center"
+              bg={useColorModeValue('white', 'gray.800')}
+              borderWidth="1px"
+              borderColor={useColorModeValue('gray.200', 'gray.700')}
+              borderRadius="md"
+              p={3}
+              shadow="sm"
+            >
               <VStack align="start" spacing={1}>
-                <Text fontWeight="bold" color="blue.600">
+                <Text fontWeight="bold" color={useColorModeValue('blue.600', 'blue.200')}>
                   {vuln.cve}
                 </Text>
-                <Text fontSize="sm" color="gray.600">
+                <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
                   {vuln.packageName} @ {vuln.packageVersion}
                 </Text>
               </VStack>
@@ -80,7 +96,7 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
           ))}
         </VStack>
 
-        <Text fontSize="sm" color="gray.600">
+        <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
           Highest critical CVSS score: {highestCvss.toFixed(1)}
         </Text>
       </VStack>

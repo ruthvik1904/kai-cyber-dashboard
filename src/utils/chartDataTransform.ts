@@ -29,6 +29,48 @@ export interface KaiStatusChartData {
   color: string;
 }
 
+export interface AnalysisComparisonDataPoint {
+  severity: string;
+  aiInvalid: number;
+  manualInvalid: number;
+}
+
+const AI_INVALID_STATUSES = new Set(['ai-invalid-norisk', 'ai-invalid', 'ai-invalid-lowrisk']);
+const MANUAL_INVALID_KEYWORDS = ['invalid', 'no risk', 'false positive'];
+
+export function prepareAnalysisComparisonData(
+  vulnerabilities: FlattenedVulnerability[]
+): AnalysisComparisonDataPoint[] {
+  const severityCategories = ['critical', 'high', 'medium', 'low'];
+  const initialCounts = severityCategories.reduce<Record<string, { ai: number; manual: number }>>((acc, severity) => {
+    acc[severity] = { ai: 0, manual: 0 };
+    return acc;
+  }, {});
+
+  vulnerabilities.forEach((vuln) => {
+    const severity = vuln.severity.toLowerCase();
+    if (!initialCounts[severity]) {
+      initialCounts[severity] = { ai: 0, manual: 0 };
+    }
+
+    const kaiStatus = (vuln.kaiStatus || '').toLowerCase();
+    if (AI_INVALID_STATUSES.has(kaiStatus)) {
+      initialCounts[severity].ai += 1;
+    }
+
+    const manualStatus = (vuln.status || '').toLowerCase();
+    if (MANUAL_INVALID_KEYWORDS.some((keyword) => manualStatus.includes(keyword))) {
+      initialCounts[severity].manual += 1;
+    }
+  });
+
+  return Object.entries(initialCounts).map(([severity, counts]) => ({
+    severity: severity.charAt(0).toUpperCase() + severity.slice(1),
+    aiInvalid: counts.ai,
+    manualInvalid: counts.manual,
+  }));
+}
+
 /**
  * Prepare severity distribution data for pie chart
  */

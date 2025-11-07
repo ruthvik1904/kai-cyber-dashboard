@@ -3,7 +3,7 @@
  * Shows before/after counts with animated transitions
  */
 
-import { Box, HStack, VStack, Text, Progress } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, Progress, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FilterState, FilterStats } from '../../hooks/useVulnerabilityFilters';
 
@@ -24,14 +24,21 @@ function FilterImpactVisualization({ filters, filterStats }: { filters: FilterSt
   }
 
   return (
-    <Box bg="white" p={6} borderRadius="lg" shadow="md">
-      <Text fontWeight="bold" fontSize="lg" mb={4}>
+    <Box
+      bg={useColorModeValue('white', 'gray.800')}
+      borderWidth="1px"
+      borderColor={useColorModeValue('gray.200', 'gray.700')}
+      p={6}
+      borderRadius="lg"
+      shadow="md"
+    >
+      <Text fontWeight="bold" fontSize="lg" mb={4} color={useColorModeValue('gray.700', 'gray.200')}>
         Filter Impact
       </Text>
       <VStack align="stretch" spacing={4}>
         <HStack spacing={6}>
           <VStack align="start" spacing={1}>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
               Total
             </Text>
             <MotionBox
@@ -45,7 +52,7 @@ function FilterImpactVisualization({ filters, filterStats }: { filters: FilterSt
             </MotionBox>
           </VStack>
           <VStack align="start" spacing={1}>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
               Filtered
             </Text>
             <MotionBox
@@ -59,7 +66,7 @@ function FilterImpactVisualization({ filters, filterStats }: { filters: FilterSt
             </MotionBox>
           </VStack>
           <VStack align="start" spacing={1}>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
               Excluded
             </Text>
             <MotionBox
@@ -76,10 +83,10 @@ function FilterImpactVisualization({ filters, filterStats }: { filters: FilterSt
 
         <Box>
           <HStack justify="space-between" mb={2}>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
               Filtered: {filteredPercentage.toFixed(1)}%
             </Text>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
               Excluded: {excludedPercentage.toFixed(1)}%
             </Text>
           </HStack>

@@ -2,7 +2,7 @@
  * Enhanced Analysis and AI Analysis buttons with visual improvements
  */
 
-import { HStack, Button, Text, Box, Tooltip } from '@chakra-ui/react';
+import { HStack, Button, Text, Box, Tooltip, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FilterState } from '../../hooks/useVulnerabilityFilters';
 
@@ -25,8 +25,15 @@ function AnalysisButtons({
   const isAIAnalysisActive = filters.excludeKaiStatus?.includes('ai-invalid-norisk');
 
   return (
-    <Box bg="white" p={6} borderRadius="lg" shadow="md">
-      <Text fontWeight="bold" fontSize="lg" mb={4}>
+    <Box
+      bg={useColorModeValue('white', 'gray.800')}
+      borderWidth="1px"
+      borderColor={useColorModeValue('gray.200', 'gray.700')}
+      p={6}
+      borderRadius="lg"
+      shadow="md"
+    >
+      <Text fontWeight="bold" fontSize="lg" mb={4} color={useColorModeValue('gray.700', 'gray.200')}>
         Analysis Tools
       </Text>
       <HStack spacing={4} mb={4}>
@@ -70,7 +77,7 @@ function AnalysisButtons({
           </Button>
         )}
       </HStack>
-      <Text fontSize="sm" color="gray.600">
+      <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
         Use Analysis tools to filter out vulnerabilities marked as invalid or no-risk.
       </Text>
     </Box>

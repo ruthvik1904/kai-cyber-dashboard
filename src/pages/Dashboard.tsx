@@ -3,17 +3,19 @@
  * Shows key metrics and visualizations
  */
 
-import { Box, Heading, Text, VStack, SimpleGrid, Stat, StatLabel, StatNumber } from '@chakra-ui/react';
+import { Box, Heading, Text, VStack, SimpleGrid, Stat, StatLabel, StatNumber, useColorModeValue } from '@chakra-ui/react';
 import { useVulnerabilityData } from '../hooks/useVulnerabilityData';
 import SeverityDistributionChart from '../components/charts/SeverityDistributionChart';
 import RiskFactorsChart from '../components/charts/RiskFactorsChart';
 import VulnerabilityTrendChart from '../components/charts/VulnerabilityTrendChart';
 import KaiStatusChart from '../components/charts/KaiStatusChart';
+import AnalysisComparisonChart from '../components/charts/AnalysisComparisonChart';
 import {
   prepareSeverityData,
   prepareRiskFactorsData,
   prepareTrendData,
   prepareKaiStatusData,
+  prepareAnalysisComparisonData,
 } from '../utils/chartDataTransform';
 
 function Dashboard() {
@@ -40,14 +42,19 @@ function Dashboard() {
   const riskFactorsData = prepareRiskFactorsData(vulnerabilities, 15);
   const trendData = prepareTrendData(vulnerabilities);
   const kaiStatusData = prepareKaiStatusData(vulnerabilities);
+  const analysisComparisonData = prepareAnalysisComparisonData(vulnerabilities);
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBorder = useColorModeValue('gray.200', 'gray.700');
+  const mutedText = useColorModeValue('gray.600', 'gray.300');
+  const headingColor = useColorModeValue('gray.700', 'gray.200');
 
   return (
     <VStack align="stretch" spacing={6}>
       <Box>
-        <Heading size="xl" mb={2}>
+        <Heading size="xl" mb={2} color={headingColor}>
           Security Vulnerability Dashboard
         </Heading>
-        <Text color="gray.600">
+        <Text color={mutedText}>
           Overview of security vulnerabilities across the software ecosystem
         </Text>
       </Box>
@@ -55,20 +62,20 @@ function Dashboard() {
       {/* Key Metrics */}
       {metadata && (
         <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
-          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
-            <StatLabel>Total Vulnerabilities</StatLabel>
+          <Stat bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={4} borderRadius="lg" shadow="md">
+            <StatLabel color={mutedText}>Total Vulnerabilities</StatLabel>
             <StatNumber>{metadata.totalCount.toLocaleString()}</StatNumber>
           </Stat>
-          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
-            <StatLabel>Groups</StatLabel>
+          <Stat bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={4} borderRadius="lg" shadow="md">
+            <StatLabel color={mutedText}>Groups</StatLabel>
             <StatNumber>{metadata.totalGroups}</StatNumber>
           </Stat>
-          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
-            <StatLabel>Repositories</StatLabel>
+          <Stat bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={4} borderRadius="lg" shadow="md">
+            <StatLabel color={mutedText}>Repositories</StatLabel>
             <StatNumber>{metadata.totalRepos}</StatNumber>
           </Stat>
-          <Stat bg="white" p={4} borderRadius="lg" shadow="md">
-            <StatLabel>Images</StatLabel>
+          <Stat bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={4} borderRadius="lg" shadow="md">
+            <StatLabel color={mutedText}>Images</StatLabel>
             <StatNumber>{metadata.totalImages}</StatNumber>
           </Stat>
         </SimpleGrid>
@@ -81,6 +88,16 @@ function Dashboard() {
         <VulnerabilityTrendChart data={trendData} isLoading={isLoading} />
         <KaiStatusChart data={kaiStatusData} isLoading={isLoading} />
       </SimpleGrid>
+
+      <Box bg={cardBg} borderWidth="1px" borderColor={cardBorder} p={6} borderRadius="lg" shadow="md">
+        <Heading size="md" mb={4} color={headingColor} textAlign="center">
+          AI vs Manual Analysis
+        </Heading>
+        <Text color={mutedText} fontSize="sm" mb={4} textAlign="center">
+          Compare how AI (Kai status) and manual adjudication categorize vulnerabilities across severity levels.
+        </Text>
+        <AnalysisComparisonChart data={analysisComparisonData} isLoading={isLoading} />
+      </Box>
     </VStack>
   );
 }

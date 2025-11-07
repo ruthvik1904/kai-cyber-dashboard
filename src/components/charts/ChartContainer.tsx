@@ -4,7 +4,7 @@
  */
 
 import { ReactNode } from 'react';
-import { Box, Heading, Text, Spinner, Center } from '@chakra-ui/react';
+import { Box, Heading, Text, Spinner, Center, useColorModeValue } from '@chakra-ui/react';
 
 interface ChartContainerProps {
   title: string;
@@ -22,7 +22,15 @@ export default function ChartContainer({
   height = 400,
 }: ChartContainerProps) {
   return (
-    <Box bg="white" p={6} borderRadius="lg" shadow="md" h={height}>
+    <Box
+      bg={useColorModeValue('white', 'gray.800')}
+      borderWidth="1px"
+      borderColor={useColorModeValue('gray.200', 'gray.700')}
+      p={6}
+      borderRadius="lg"
+      shadow="md"
+      h={height}
+    >
       <Heading size="md" mb={4}>
         {title}
       </Heading>
