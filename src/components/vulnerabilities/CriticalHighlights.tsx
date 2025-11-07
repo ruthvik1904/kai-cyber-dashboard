@@ -25,21 +25,30 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
     return { criticalList: critical, chartData: chart, highestCvss: highest };
   }, [vulnerabilities, limit]);
 
+  const highlightBg = useColorModeValue('red.50', 'rgba(254, 226, 226, 0.1)');
+  const highlightBorder = useColorModeValue('red.100', 'red.300');
+  const titleColor = useColorModeValue('red.700', 'red.200');
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBorder = useColorModeValue('gray.200', 'gray.700');
+  const cveColor = useColorModeValue('blue.600', 'blue.200');
+  const metaColor = useColorModeValue('gray.600', 'gray.300');
+  const footerColor = useColorModeValue('gray.600', 'gray.300');
+
   if (criticalList.length === 0) {
     return null;
   }
 
   return (
     <Box
-      bg={useColorModeValue('red.50', 'rgba(254, 226, 226, 0.1)')}
+      bg={highlightBg}
       borderRadius="lg"
       borderWidth="1px"
-      borderColor={useColorModeValue('red.100', 'red.300')}
+      borderColor={highlightBorder}
       p={6}
     >
       <VStack align="stretch" spacing={4}>
         <HStack justify="space-between" align="center">
-          <Text fontWeight="bold" fontSize="lg" color={useColorModeValue('red.700', 'red.200')}>
+          <Text fontWeight="bold" fontSize="lg" color={titleColor}>
             Critical Highlights
           </Text>
           <Badge colorScheme="red">
@@ -67,21 +76,21 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
         <VStack align="stretch" spacing={2}>
           {criticalList.map((vuln) => (
             <HStack
-              key={vuln.cve}
+              key={vuln.id}
               justify="space-between"
               align="center"
-              bg={useColorModeValue('white', 'gray.800')}
+              bg={cardBg}
               borderWidth="1px"
-              borderColor={useColorModeValue('gray.200', 'gray.700')}
+              borderColor={cardBorder}
               borderRadius="md"
               p={3}
               shadow="sm"
             >
               <VStack align="start" spacing={1}>
-                <Text fontWeight="bold" color={useColorModeValue('blue.600', 'blue.200')}>
+                <Text fontWeight="bold" color={cveColor}>
                   {vuln.cve}
                 </Text>
-                <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
+                <Text fontSize="sm" color={metaColor}>
                   {vuln.packageName} @ {vuln.packageVersion}
                 </Text>
               </VStack>
@@ -96,7 +105,7 @@ export default function CriticalHighlights({ vulnerabilities, limit = 5 }: Criti
           ))}
         </VStack>
 
-        <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
+        <Text fontSize="sm" color={footerColor}>
           Highest critical CVSS score: {highestCvss.toFixed(1)}
         </Text>
       </VStack>
