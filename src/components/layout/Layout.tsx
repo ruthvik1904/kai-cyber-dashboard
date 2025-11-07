@@ -25,7 +25,7 @@ function Layout({ children }: LayoutProps) {
   const footerBorder = headerBorder;
 
   return (
-    <Box minH="100vh" bg={pageBg}>
+    <Box minH="100vh" bg={pageBg} display="flex" flexDirection="column">
       {/* Header */}
       <Box bg={headerBg} borderBottom="1px" borderColor={headerBorder} shadow="sm">
         <Container maxW="container.xl" py={4}>
@@ -73,12 +73,12 @@ function Layout({ children }: LayoutProps) {
       </Box>
 
       {/* Main Content */}
-      <Container maxW="container.xl" py={8}>
+      <Container as="main" maxW="container.xl" py={8} flex="1">
         {children}
       </Container>
 
       {/* Footer */}
-      <Box as="footer" bg={footerBg} borderTop="1px" borderColor={footerBorder} mt={12}>
+      <Box as="footer" bg={footerBg} borderTop="1px" borderColor={footerBorder} mt="auto">
         <Container maxW="container.xl" py={4}>
           <Text fontSize="sm" color="gray.500" textAlign="center">
             Security Vulnerability Dashboard
