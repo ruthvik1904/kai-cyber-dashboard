@@ -4,19 +4,23 @@
 
 import { HStack, Button, Text, Box, Tooltip } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useVulnerabilityFilters } from '../../hooks/useVulnerabilityFilters';
+import { FilterState } from '../../hooks/useVulnerabilityFilters';
 
 const MotionButton = motion(Button);
 
-function AnalysisButtons() {
-  const {
-    applyAnalysis,
-    applyAIAnalysis,
-    clearFilters,
-    filters,
-    isLoading,
-  } = useVulnerabilityFilters();
-
+function AnalysisButtons({
+  applyAnalysis,
+  applyAIAnalysis,
+  clearFilters,
+  filters,
+  isLoading,
+}: {
+  applyAnalysis: () => void;
+  applyAIAnalysis: () => void;
+  clearFilters: () => void;
+  filters: FilterState;
+  isLoading: boolean;
+}) {
   const isAnalysisActive = filters.excludeKaiStatus?.includes('invalid - norisk');
   const isAIAnalysisActive = filters.excludeKaiStatus?.includes('ai-invalid-norisk');
 
