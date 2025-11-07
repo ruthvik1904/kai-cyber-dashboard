@@ -1,10 +1,11 @@
 /**
  * Configuration constants for data loading and processing
  */
+const jsonUrl = import.meta.env.VITE_VULN_DATA_URL || '/ui_demo.json';
 
 export const DATA_CONFIG = {
   // JSON file path (relative to public directory)
-  JSON_FILE_PATH: '/ui_demo.json',
+  JSON_FILE_PATH: jsonUrl,
   
   // IndexedDB configuration
   DATABASE_NAME: 'VulnerabilityDB',
