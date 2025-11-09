@@ -49,7 +49,7 @@ function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <Box minH="100vh" bg={pageBg}>
+    <Box minH="100vh" bg={pageBg} display="flex" flexDirection="column">
       {/* Header */}
       <Box bg={headerBg} borderBottom="1px" borderColor={headerBorder} shadow="sm">
         <Container maxW="container.xl" py={{ base: 3, md: 4 }}>
@@ -104,12 +104,12 @@ function Layout({ children }: LayoutProps) {
       </Box>
 
       {/* Main Content */}
-      <Container maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 6 }}>
+      <Container maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 6 }} flex="1">
         {children}
       </Container>
 
       {/* Footer */}
-      <Box as="footer" bg={footerBg} borderTop="1px" borderColor={footerBorder} mt={{ base: 10, md: 12 }}>
+      <Box as="footer" bg={footerBg} borderTop="1px" borderColor={footerBorder} mt="auto">
         <Container maxW="container.xl" py={{ base: 4, md: 6 }}>
           <Text fontSize="sm" color={mutedText} textAlign="center">
             Security Vulnerability Dashboard
